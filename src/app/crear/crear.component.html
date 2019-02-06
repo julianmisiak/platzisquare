@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="form-conatiner">
+        <label>Nombre</label>
+        <input class="form-control" type="text" [(ngModel)]="lugar.nombre"/>
+        <br/>
+        <label>Distancia</label>
+        <input class="form-control" type="number" [(ngModel)]="lugar.distancia"/>
+        <br/>
+        <label>Cercania</label>
+        <input class="form-control" type="number" [(ngModel)]="lugar.cercania"/>
+        <br/>
+        <label>Descripción</label>
+        <textarea class="form-control" [(ngModel)]="lugar.descripcion"></textarea>
+        <br/>
+        <label>Plan</label>
+        <input class="form-control" type="text" [(ngModel)]="lugar.plan"/>
+
+        <h3>Datos de dirección</h3>
+        <label>Calle y númeri</label>
+        <input class="form-control" type="text" [(ngModel)]="lugar.calle"/>
+
+        <label>Ciudad</label>
+        <input class="form-control" type="text" [(ngModel)]="lugar.ciudad"/>
+
+        <label>País</label>
+        <input class="form-control" type="text" [(ngModel)]="lugar.pais"/>
+      </div>
+    </div>
+  </div>
+  <hr/>
+  <div class="btn-container">
+    <a class="btn btn-primary" (click)="guardarLugar()">Enviar</a>
+    <a class="btn btn-default" routerLink="/lugares">Cancelar</a>
+  </div>
+</div>

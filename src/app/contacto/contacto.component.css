@@ -1,0 +1,30 @@
+.container {
+  background-image: url("../../assets/background-image-contact.jpg");
+  background-position: 50% 50%;
+  background-size: cover;
+  vertical-align: middle;
+  align-items: center;
+  margin: 50px;
+}
+
+.form-conatiner {
+  align: right;
+  width: 90%;
+  margin-top: 5%;
+}
+
+img {
+  height: 200px;
+  width: 200px;
+}
+
+.col-md-4 {
+  display: block;
+  vertical-align: middle;
+}
+
+.btn-container {
+  float: left;
+}
+
+

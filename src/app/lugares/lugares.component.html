@@ -1,0 +1,47 @@
+<agm-map [latitude]="lat" [longitude]="lng">
+  <agm-marker *ngFor="let lugar of lugares" [latitude]="lugar.lat" [longitude]="lugar.lng"></agm-marker>
+</agm-map>
+
+<ul>
+  <!-- Se utiliza cuando se escriben mas de una directiva, com vemos debajo, if y for -->
+  <ng-container *ngFor="let lugar of lugares">
+    <li *ngIf="lugar.active">{{lugar.nombre}}</li>
+  </ng-container>
+</ul>
+
+<!--
+<ul>
+  <ng-container *ngFor="let lugar of lugares; let i = index" [ngSwitch]="lugar.cercania">
+    <li appContarClicks [ngStyle]="{color: (lugar.active ? 'black' : 'gray')}"
+        [ngClass]="{numero_par: (i+1) %2 !== 0}" [appResaltar]="lugar.plan">
+      {{lugar.nombre}} -
+      <span *ngSwitchCase="1" [ngStyle]="{color: 'green'}">Muy Cercano</span>
+      <span *ngSwitchCase="2" [ngStyle]="{color: 'black'}">Lejano</span>
+      <span *ngSwitchCase="3" [ngStyle]="{color: 'red'}">Muy Lejano</span>
+    </li>
+  </ng-container>
+</ul>
+
+-->
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <h2>Lugares Cercanos</h2>
+      <a class="btn btn-primary" routerLink="/crear/new">
+        Crear Nuevo Negocio
+      </a>
+      <ul class="list-group">
+        <ng-container *ngFor="let lugar of lugares">
+          <a routerLink="/crear/{{lugar.id}}">
+            <li class="list-group-item" >{{lugar.nombre}}</li>
+            <!--*ngIf="lugar.active" -->
+          </a>
+        </ng-container>
+      </ul>
+    </div>
+    <div class="col-md-4">
+      <h2>Destacados</h2>
+    </div>
+  </div>
+</div>
