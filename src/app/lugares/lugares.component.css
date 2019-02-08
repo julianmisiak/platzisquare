@@ -1,0 +1,58 @@
+#cuadrado {
+  width: 200px;
+  height: 200px;
+  background-color: red;
+}
+
+.btn-primary {
+  position: absolute;
+  right: 25px;
+  top: 3px;
+}
+
+.bg-secondary {
+  color: yellow;
+}
+
+h1, h2, h3, small, p {
+  color: #fafafa;
+}
+
+.container {
+  margin-top: 5px;
+}
+
+.header-title{
+  color: gray;
+}
+.bg-sin-destacar {
+  color: #000;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.bg-sin-destaca-dark {
+  background-color: #707070 !important;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px
+}
+
+.bg-destacado {
+  background-color: #bf360c !important;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+li {
+  list-style-type: none;
+}
+
+a{
+  text-decoration: none;
+}
+
+h3:hover {
+  color: rgba(255, 255, 255, 0.6);
+}

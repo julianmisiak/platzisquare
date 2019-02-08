@@ -2,7 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AgmCoreModule} from '@agm/core';
 import {ResaltarDirective} from './directives/resaltar.directive';
 import {ContarClicksDirective} from './directives/contar-clicks.directive';
@@ -15,15 +15,23 @@ import {LugaresService} from './services/lugares.service';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFireDatabaseModule, AngularFireDatabase} from '@angular/fire/database';
 import {AngularFireAuthModule} from '@angular/fire/auth';
-import { CrearComponent } from './crear/crear.component';
+import {CrearComponent} from './crear/crear.component';
 import {HttpClientModule} from '@angular/common/http';
+import {LinkifystrPipe} from './pipes/linkifystr.pipe';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {LoginComponent} from './login/login.component';
+import {RegistroComponent} from './registro/registro.component';
+import {AutorizacionService} from './services/autorizacion.service';
+import {MyGuardService} from './services/my-guard.service';
 
 const appRoutes: Routes = [
   {path: '', component: LugaresComponent},
   {path: 'lugares', component: LugaresComponent},
   {path: 'detalle/:id', component: DetalleComponent},
   {path: 'contacto', component: ContactoComponent},
-  {path: 'crear/:id', component: CrearComponent}
+  {path: 'crear/:id', component: CrearComponent, canActivate: [MyGuardService]},
+  {path: 'login', component: LoginComponent},
+  {path: 'registro', component: RegistroComponent}
 ];
 
 export const firebaseConfig = {
@@ -43,7 +51,10 @@ export const firebaseConfig = {
     DetalleComponent,
     LugaresComponent,
     ContactoComponent,
-    CrearComponent
+    CrearComponent,
+    LinkifystrPipe,
+    LoginComponent,
+    RegistroComponent
   ],
   imports: [
     BrowserModule,
@@ -56,9 +67,11 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule
   ],
-  providers: [LugaresService],
+  providers: [LugaresService, AutorizacionService, MyGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

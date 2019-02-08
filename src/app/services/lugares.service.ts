@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from '@angular/fire/database';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {map} from 'rxjs/operators';
+import {AngularFireAuth} from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +10,8 @@ import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class LugaresService {
+  API_ENDPOINT = 'https://platzisquare-b8bb1.firebaseio.com';
+
   lugares: any = [
     {
       id: 1, plan: 'pagado', cercania: 1, distancia: 1, active: true,
@@ -34,12 +38,32 @@ export class LugaresService {
       nombre: 'Zapateria el Clavo', description: 'Descripción del negocio'
     }
   ];
+  private mensajeError: string;
+  private idToken: string;
 
-  constructor(private afDB: AngularFireDatabase, private http: HttpClient) {
+  constructor(private afDB: AngularFireDatabase, private http: HttpClient, private angularFireAuth: AngularFireAuth) {
+    console.log('  angularFireAuth.auth.currentUser: ' + JSON.stringify(angularFireAuth.auth.currentUser));
+    angularFireAuth.auth.currentUser.getIdToken(true).then(
+      (idToken) => {
+        this.idToken = idToken;
+      },
+      (error) => {
+        this.mensajeError = 'Necesitas loguearte Wachin!!!';
+        alert(this.mensajeError);
+      }
+    ).catch(
+      (error) => {
+        this.mensajeError = 'Elol!!!';
+      }
+    );
   }
 
   public getLugares() {
-    return this.afDB.list('lugares/');
+    //  return this.afDB.list('lugares/');
+    return this.http.get(this.API_ENDPOINT + '/.json?auth=' + this.idToken).pipe(
+      map(resultado => resultado['lugares']
+      )
+    );
   }
 
   public buscarLugar(id) {
@@ -48,8 +72,9 @@ export class LugaresService {
   }
 
   public guardarLugar(lugar) {
-    console.log('guardado: ' + JSON.stringify(lugar));
-    this.afDB.database.ref('lugares/' + lugar.id).set(lugar);
+    // this.afDB.database.ref('lugares/' + lugar.id).set(lugar);
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post(this.API_ENDPOINT + '/lugares.json', lugar, {headers}).subscribe();
   }
 
   public editarLugar(lugar) {
@@ -58,7 +83,7 @@ export class LugaresService {
   }
 
   public obtenerGeoData(direccion) {
-    return this.http.get(' https://maps.googleapis.com/maps/api/geocode/json?address=' + direccion +
+    return this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + direccion +
       '&key=AIzaSyD2kuV6IiDXyCg3hrKJXviZ4bU-_befkWk');
   }
 

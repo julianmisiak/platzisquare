@@ -2,12 +2,14 @@
   <agm-marker *ngFor="let lugar of lugares" [latitude]="lugar.lat" [longitude]="lugar.lng"></agm-marker>
 </agm-map>
 
+<!--
 <ul>
-  <!-- Se utiliza cuando se escriben mas de una directiva, com vemos debajo, if y for -->
+ Se utiliza cuando se escriben mas de una directiva, com vemos debajo, if y for
   <ng-container *ngFor="let lugar of lugares">
     <li *ngIf="lugar.active">{{lugar.nombre}}</li>
   </ng-container>
 </ul>
+-->
 
 <!--
 <ul>
@@ -24,24 +26,46 @@
 
 -->
 
+
 <div class="container">
   <div class="row">
     <div class="col-md-8">
-      <h2>Lugares Cercanos</h2>
-      <a class="btn btn-primary" routerLink="/crear/new">
-        Crear Nuevo Negocio
-      </a>
-      <ul class="list-group">
+      <div class="bg-sin-destacar padding">
+        <h2 class="header-title">Lugares Cercanos</h2>
+        <a class="btn btn-primary" pull-right routerLink="/crear/new">
+          Crear Nuevo Negocio
+        </a>
         <ng-container *ngFor="let lugar of lugares">
-          <a routerLink="/crear/{{lugar.id}}">
-            <li class="list-group-item" >{{lugar.nombre}}</li>
-            <!--*ngIf="lugar.active" -->
-          </a>
+          <li class="bg-sin-destaca-dark">
+            <a routerLink="/crear/{{lugar.id}}">
+              <h3>{{lugar.nombre | uppercase}} </h3>
+              <br/>
+              <small>Creado: {{lugar.id | date:'short' | uppercase}}</small>
+              <p [innerHTML]="lugar.descripcion | linkyfystr"></p>
+            </a>
+          </li>
+          <!--*ngIf="lugar.active" -->
         </ng-container>
-      </ul>
+      </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4" [@contenedorAnimable]="state"
+         (@contenedorAnimable.start)="animacionInicia($event)"
+         (@contenedorAnimable.done)="animacionTermina($event)">
+      <!--Callbacks arriba-->
+
       <h2>Destacados</h2>
+      <ng-container *ngFor="let lugar of lugares">
+        <div class="bg-destacado padding" *ngIf="lugar.plan === 'pagado'">
+          <a routerLink="/crear/{{lugar.id}}">
+            <h3>{{lugar.nombre | uppercase}} </h3>
+            <!--   <br/>
+               <small>Creado: {{lugar.id | date:'short' | uppercase}}</small>-->
+            <p [innerHTML]="lugar.descripcion | linkyfystr"></p>
+          </a>
+        </div>
+        <!--*ngIf="lugar.active" -->
+
+      </ng-container>
     </div>
   </div>
 </div>
